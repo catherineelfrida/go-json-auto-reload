@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Status</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
+            .container {
+                max-width: 500px;
+                padding: 20px;
+                background-color: #fff;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                text-align: center;
+                animation: fadeIn 0.5s ease-out;
+            }
+            h1 {
+                color: #333;
+            }
+            .status {
+                display: inline-block;
+                /* margin-top: 20px; */
+                padding: 10px 20px;
+                border-radius: 20px;
+                font-weight: bold;
+                text-transform: uppercase;
+                animation: pulse 1s infinite alternate;
+            }
+            .water {
+                color: #3498db;
+                background-color: #eaf4fb;
+            }
+            .wind {
+                color: #f39c12;
+                background-color: #fef5e7;
+            }
+            @keyframes pulse {
+                0% {
+                    transform: scale(1);
+                }
+                100% {
+                    transform: scale(1.05);
+                }
+            }
+            @keyframes fadeIn {
+                0% {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+                100% {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            .aman {
+                color: green;
+            }
+            .siaga {
+                color: orange;
+            }
+            .bahaya {
+                color: red;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Status Water dan Wind</h1>
+            <div id="status"></div>
+        </div>
+        <script>
+            fetch('status.json')
+                .then(response => response.json())
+                .then(data => {
+                    const water = data.water;
+                    const wind = data.wind;
+                    const statusWater = data.statusWater;
+                    const statusWind = data.statusWind;
+
+                    const statusElement = document.getElementById('status');
+                    statusElement.innerHTML = `
+                        <p>Water: ${water} meter</p>
+                        <p>Status Water: <span class="status ${statusWater.toLowerCase()}">${statusWater}</span></p>
+                        <p>Wind: ${wind} meter/detik</p>
+                        <p>Status Wind: <span class="status ${statusWind.toLowerCase()}">${statusWind}</span></p>
+                    `;
+                })
+                .catch(error => console.error('Error:', error));
+        </script>
+    </body>
+</html>
